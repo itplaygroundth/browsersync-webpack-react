@@ -1,0 +1,140 @@
+{
+  "name": "rentall-cars",
+  "version": "1.2",
+  "private": true,
+  "engines": {
+    "node": ">=10",
+    "npm": ">=3.10"
+  },
+  "browserslist": [
+    ">1%",
+    "last 4 versions",
+    "Firefox ESR",
+    "not ie < 9"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "mkdirp": "^1.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hot-loader": "^4.13.0",
+    "rimraf": "^3.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.10",
+    "@babel/node": "7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-react": "^7.18.6",
+    "@hot-loader/react-dom": "^17.0.2",
+    "assets-webpack-plugin": "^7.1.1",
+    "autoprefixer": "^10.4.8",
+    "babel-loader": "^8.2.5",
+    "browser-sync": "^2.27.10",
+    "chai": "^3.5.0",
+    "chokidar": "^1.6.1",
+    "css-loader": "^6.7.1",
+    "editorconfig-tools": "^0.1.1",
+    "enzyme": "^2.7.1",
+    "eslint": "^8.22.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-loader": "^1.6.1",
+    "eslint-plugin-css-modules": "^2.2.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^7.30.1",
+    "file-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^2.6.1",
+    "postcss-loader": "^7.0.1",
+    "speed-measure-webpack-plugin": "^1.5.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.74.0",
+    "webpack-bundle-analyzer": "^4.6.0",
+    "webpack-cli": "4.6.0",
+    "webpack-dev-middleware": "4.1.0",
+    "webpack-hot-middleware": "2.25.0",
+    "webpack-node-externals": "2.5.2",
+    "write-file-webpack-plugin": "4.5.1"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": [
+      "airbnb",
+      "plugin:css-modules/recommended"
+    ],
+    "plugins": [
+      "css-modules"
+    ],
+    "globals": {
+      "__DEV__": true
+    },
+    "env": {
+      "browser": true
+    },
+    "rules": {
+      "import/extensions": "off",
+      "import/no-extraneous-dependencies": "off",
+      "react/jsx-filename-extension": "off",
+      "react/prefer-stateless-function": "off"
+    }
+  },
+  "stylelint": {
+    "extends": "stylelint-config-standard",
+    "rules": {
+      "string-quotes": "single",
+      "property-no-unknown": [
+        true,
+        {
+          "ignoreProperties": [
+            "composes"
+          ]
+        }
+      ],
+      "selector-pseudo-class-no-unknown": [
+        true,
+        {
+          "ignorePseudoClasses": [
+            "global"
+          ]
+        }
+      ]
+    }
+  },
+  "pre-commit": "lint:staged",
+  "lint-staged": {
+    "*.{cmd,html,json,md,sh,txt,xml,yml}": [
+      "editorconfig-tools fix",
+      "git add"
+    ],
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{css,less,scss,sss}": [
+      "stylefmt",
+      "stylelint",
+      "git add"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      "react-hot-loader/babel"
+    ]
+  },
+  "scripts": {
+    "clean": "babel-node tools/run clean",
+    "dev": "webpack --mode development",
+    "prod:client": "webpack --mode production -c ./config/webpack.client.config.js",
+    "start:web": "webpack serve --hot --mode development",
+    "start": "babel-node tools/run start",
+    "build": "babel-node tools/run build",
+    "serve": "babel-node tools/webpack.dev.js",
+    "build:client": "./node_modules/.bin/babel-node --presets @babel/preset-env ./node_modules/.bin/webpack -c ./config/webpack.client.config.js --production",
+    "build:server": "./node_modules/.bin/webpack -c ./tools-webpack5/webpack.server.config.js "
+  }
+}
