@@ -1,5 +1,6 @@
 const path = require('path')
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const AssetsPlugin = require('assets-webpack-plugin');
 const webpack = require('webpack');
 const smp = new SpeedMeasurePlugin();
@@ -48,6 +49,7 @@ module.exports = smp.wrap({
     },
     plugins:
         [
+            ...webpackConfig.plugins,
             new webpack.ProgressPlugin(),
             new webpack.ProvidePlugin({
                 process: 'process/browser',
@@ -58,7 +60,7 @@ module.exports = smp.wrap({
                 //'process.env.RENTALL_BUILD_MODE': `"${buildMode}"`,
                 __DEV__: ifDebug(true, false),
             }),
-    
+            
         ]
 })
 

@@ -1,7 +1,7 @@
 const path = require("path");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+//const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 //const isDebug = true;
 const isDebug = !process.argv.includes("--release");
 const isVerbose = process.argv.includes("--verbose");
@@ -25,7 +25,10 @@ const config = {
   //   filename: 'bundle.js'
   // },
   output: {
-    publicPath: "/",
+    path: path.resolve(__dirname, '../build/public'),
+    publicPath: '/',
+    pathinfo: isVerbose,
+ 
   },
   module: {
     rules: [
@@ -54,13 +57,16 @@ const config = {
 
               //    ...isDebug ? [] : ['react-optimize'],
             ],
+            plugins: ['react-hot-loader/babel']
           },
         },
       },
+ 
       {
         test: /\.css$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          //MiniCssExtractPlugin.loader,
+          'isomorphic-style-loader',
           {
             loader: "css-loader",
             options: {
@@ -86,8 +92,13 @@ const config = {
   // },
   plugins: [
     ...(isAnalyze ? [new BundleAnalyzerPlugin()] : []),
-    new MiniCssExtractPlugin(),
+    //new MiniCssExtractPlugin(),
   ],
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+    },
+  },
   stats: {
     colors: true,
     reasons: isDebug,
